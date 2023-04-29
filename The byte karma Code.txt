@@ -1,0 +1,48 @@
+import random
+
+# Define some lists of responses based on different emotions
+greetings = ["Hi there!", "Hello!", "Greetings!"]
+positive_responses = ["That's awesome to hear that!", "Good for you!", "I'm really glad to hear that!"]
+negative_responses = ["I am sorry to hear that.", "Oh,That sounds tough.", "I am here to support you."]
+goodbye = ["Goodbye!", "Take care!", "See you later!"]
+
+# Define a function for generating a CBT-based response
+def cbt_response(user_input):
+    cbt_responses = {
+        "anxiety": "What is the thing which is worrying you?",
+        "depression": "What are the negative htoughts which come to your mind? Is there any something that contradicts them?",
+        "stress": "What is the cause of your stress? Who all come to your mind when you think about stress?",
+    }
+    for key in cbt_responses:
+        if key in user_input.lower():
+            return cbt_responses[key]
+    return None
+
+# Define a function for generating a response to user input
+def generate_response(user_input):
+    response = None
+    if "hi" in user_input.lower() or "hello" in user_input.lower():
+        response = random.choice(greetings)
+    elif "goodbye" in user_input.lower() or "bye" in user_input.lower():
+        response = random.choice(goodbye)
+    elif any(word in user_input.lower() for word in ["happy", "good", "positive", "great"]):
+        response = random.choice(positive_responses)
+    elif any(word in user_input.lower() for word in ["sad", "bad", "negative", "anxious", "stressed", "depressed"]):
+        response = cbt_response(user_input)
+        if response is None:
+            response = random.choice(negative_responses)
+    else:
+        response = "I'm sorry, I didn't understand. Can you please rephrase it?"
+    return response
+
+# Define a main function for running the chatbot
+def main():
+    print("Welcome to the The Byte Karma Mental Health Chatbot!")
+    print("How can I help you?")
+    while True:
+        user_input = input("> ")
+        response = generate_response(user_input)
+        print(response)
+
+if __name__ == "__main__":
+    main()
